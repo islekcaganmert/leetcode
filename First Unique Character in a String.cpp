@@ -1,11 +1,21 @@
 class Solution {
 public:
     int firstUniqChar(string s) {
+        vector<int> charIndex(26, -1);
         for (int i = 0; i < s.size(); ++i) {
-            if (std::ranges::count(s, s[i]) == 1) {
-                return i;
+            int index = s[i] - 'a';
+            if (charIndex[index] == -1) {
+                charIndex[index] = i;
+            } else {
+                charIndex[index] = -2;
             }
         }
-        return -1;
+        int result = INT_MAX;
+        for (int idx : charIndex) {
+            if (idx >= 0 && idx < result) {
+                result = idx;
+            }
+        }
+        return (result == INT_MAX) ? -1 : result;
     }
 };
